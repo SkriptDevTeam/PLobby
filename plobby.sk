@@ -46,7 +46,6 @@ command /sb:
 		make score "&l%display name of player%" in board of player to 2
 		move display of player to "sidebar"
 on join:
-# wywalilem to co dales, pirat bo bugowalo skrypt
 	execute player command "/sb"
 	remove compass named "&aWybierz serwer" from the player
 	remove clock named "&eGracze: &aON" from player
@@ -83,3 +82,24 @@ on any move:
 	player is in world "{@swiat}":
 		player has permission "plobby.vip":
 			play 1 of effect "heart" with data 1 at player
+command /st <text> <text> <text> <text>:
+#            typ   nazwa  typ         co ma robic polecenie
+#             moba  moba  polecenia   (jak komeda to jaka komenda jak serwer to na jaki serwer)
+	trigger:
+		if player has permission "plobby.st":
+			if arg 1 is "zombie" or "skeleton":
+#                            doda ktos tu reszte mobow? prosze 
+				if arg 2 is set:
+					if arg 3 is "serwer" or "komenda":
+						if arg 4 is set:
+							stop
+							# tworzenie moba
+						else:
+							send "{@tag} Nie wpisales serwera docelowego / komedy!"
+					else:
+						send "{@tag} Niepoprawny typ polecenia! Musi byc serwer lub komenda!"
+				else:
+					send "{@tag} Nie wpisales nazwy moba!"
+			else:
+				send "{@tag} Wpisz poprawna nazwe moba!"
+			
