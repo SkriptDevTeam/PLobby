@@ -69,8 +69,7 @@ on rightclick with clock:
 		send "{@tag} Gracze zostali ukryci!"
 		stop
 on xp spawn:
-	entity is in world "{@swiat}":
-		cancel event
+	cancel event
 on pick up:
 	if player don't have permission "plobby.pick":
 		cancel event
