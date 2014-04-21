@@ -18,6 +18,9 @@ options:
 #   Kordynat y po ktorego przekroczeniu zostajemy teleportowani na spawn
 	y: 50
 	
+variables:
+	{rekord-graczy} = 0
+	
 #--------------------------#
 #         Wyrzutnie        #
 #--------------------------#
@@ -98,10 +101,10 @@ on join:
 	remove clock named "&eGracze: &cOFF" from player
 	remove bone named "&aZwierzeta" from player
 	remove gold ingot named "&eEfekty &e&lVIP" from the player
-	give gold ingot named "&eEfekty &e&lVIP" to the player
 	give clock named "&eGracze: &aON" to the player
 	set {plobby.widocznosc.%player%} to 1 
-	give bone named "&aZwierzeta" to player
+	give gold ingot named "&eEfekty &e&lVIP" to the player
+#	give bone named "&aZwierzeta" to player
 	apply speed 2 to the player for 999 days
 	apply jump boost 2 to the player for 999 days
 	
@@ -128,7 +131,7 @@ on rightclick with clock:
 on rightclick with gold ingot:
 	if name of player's tool is "&eEfekty &e&lVIP":
 		if player has permission "plobby.vip":
-			show "s;1;i;351:1;n;&7Efekt: &4Serca;c;efekt %player% serca;s;2;i;51;n;&7Efekt: &6Ogien;c;efekt %player% ogien;s;3;i;25;n;&7Efekt: &1Nut;c;efekt %player% nuty;s;4;i;351:4;n;&7Efekt: &3M&ea&bg&ei&6i;c;efekt %player% magia;s;5;i;331;n;&7Efekt: &cRedstone;c;efekt %player% redstone;s;9;i;399;n;&4Usun efekty;c;efekt %player% nic;" with 1 row named "{@tag} &7Efekty &6&lVIP" to player
+			show "s;1;i;351:1;n;&7Efekt: &4Serca;c;efekt %player% serca;s;2;i;51;n;&7Efekt: &6Ogien;c;efekt %player% ogien;s;3;i;25;n;&7Efekt: &1Nut;c;efekt %player% nuty;s;4;i;351:4;n;&7Efekt: &3M&ea&bg&ei&6a;c;efekt %player% magia;s;5;i;331;n;&7Efekt: &cRedstone;c;efekt %player% redstone;s;6;i;351:1;n;&7Efekt: &1K&2o&3l&4o&5r&6y;c;efekt %player% kolory;s;7;i;373;n;&7Efekt: &5Wiedzma;c;efekt %player% wiedzma;s;10;i;116:1;n;&7Efekt: &6Enchant;c;efekt %player% enchant;s;11;i;10;n;&7Efekt: &cLava;c;efekt %player% lava;s;12;i;160;n;&7Efekt: &8Dym;c;efekt %player% dym;s;13;i;91;n;&7Efekt: &4Zly;c;efekt %player% zly;s;18;i;399;n;&4Usun efekty;c;efekt %player% nic;" with 2 row named "{@tag} &7Efekty &6&lVIP" to player
 		else:
 			send "{@tag} {@per}"
 command /efekt <player> <text>:
@@ -147,6 +150,18 @@ every 1 seconds:
 			play 100 of effect "mobSpell" with data 1 at loop-player
 		if {efekt.%loop-player%} is "redstone":
 			play 200 of effect "reddust" with data 0 at loop-player
+		if {efekt.%loop-player%} is "kolory":
+			play 200 of effect "reddust" with data 1 at loop-player
+		if {efekt.%loop-player%} is "wiedzma":
+			play 100 of effect "witchMagic" with data 0 at loop-player
+		if {efekt.%loop-player%} is "enchant":
+			play 50 of effect "enchantmenttable" with data 0 at loop-player
+		if {efekt.%loop-player%} is "lava":
+			play 20 of effect "lava" with data 0 at loop-player
+		if {efekt.%loop-player%} is "dym":
+			play 50 of effect "cloud" with data 0 at loop-player
+		if {efekt.%loop-player%} is "zly":
+			play 20 of effect "angryVillager" with data 0 at loop-player
 			
 #--------------------------#
 #         Statuly          #
@@ -180,23 +195,32 @@ command /st <entity type> <text> <text> <text>:
 		else:
 			send "{@tag} {@per}"
 
-on click on a entity:
+on rightclick on a entity:
 	if {st.statua.typ.%name of clicked entity%} is "komenda":
 		execute player command "/%{st.statua.polecenie.%name of clicked entity%}%"
+	else:
+		send "{@tag} Funkcjonalnosc bunnge zostala tymczasowo wylaczona."
+		
+#--------------------------#
+#         Zwierzeta        #
+#--------------------------#
+
+on rightclick with bone:
+	if name of player's tool is "&aZwierzeta":
+		if player has permission "plobby.zwierzeta":
+			send "{@tag} Juz wkrotce!"
+		else:
+			send "{@tag} {@per}"
+			
 #--------------------------#
 #       Rekord graczy      #
 #--------------------------#
 
-every 60 seconds:
+every 1 minute:
+	{rekord-graczy} is smaller than number of players:
+		broadcast "&7[&6*&7] Ustanowilismy nowy rekord graczy! Poprzedni wynik: &6%{rekord-graczy}%&7, nowy rekord: &6%number of players%&7! Dziekujemy!"
+		set {rekord-graczy} to "%number of players%"
 	loop all players:
 		execute loop-player command "/sb"
-	if {rekord-graczy} is not set:
-		set {rekord-graczy} to 1
-	else:
-		set {_a} to "%number of players%" parsed as integer
-		set {_r} to "%{rekord-graczy}%" parsed as integer
-		if {_r} is smaller than {_a}:
-			broadcast "&7[&6*&7] Ustanowilismy nowy rekord graczy! Poprzedni wynik: &6%{_r}%&7, nowy rekord: &6%{_a}%&7! Dziekujemy!"
-			set {rekord-graczy} to "%{_a}%"
-	
+			
 #---------------- Koniec ---------------- #
