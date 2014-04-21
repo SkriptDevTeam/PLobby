@@ -79,7 +79,7 @@ on drop:
 		
 on rightclick with gold ingot:
 	if player has permission "plobby.vip":
-		show "s;1;i;351:1;n;&7Efekt: &4Serca;c;efekt %player% serca;s;2;i;51;n;&7Efekt: &6Ogien;c;efekt %player% ogien;s;3;i;25;n;&7Efekt: &1Nut;c;efekt %player% nuty;s;4;i;351:4;n;&7Efekt: &3M&ea&bg&ei;c;efekt %player% magia;s;5;i;331;n;&7Efekt: &cRedstone;c;efekt %player% redstone;" with 1 row named "{@tag} &7Efekty &6&lVIP" to player
+		show "s;1;i;351:1;n;&7Efekt: &4Serca;c;efekt %player% serca;s;2;i;51;n;&7Efekt: &6Ogien;c;efekt %player% ogien;s;3;i;25;n;&7Efekt: &1Nut;c;efekt %player% nuty;s;4;i;351:4;n;&7Efekt: &3M&ea&bg&ei&6i;c;efekt %player% magia;s;5;i;331;n;&7Efekt: &cRedstone;c;efekt %player% redstone;" with 1 row named "{@tag} &7Efekty &6&lVIP" to player
 	else:
 		send "&cNie masz uprawnien!"
 command /st <entity type> <text> <text> <text>:
