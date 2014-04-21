@@ -83,16 +83,15 @@ on any move:
 		player has permission "plobby.vip":
 			play 1 of effect "heart" with data 1 at player
 command /st <entity type> <text> <text> <text>:
-#            typ   nazwa  typ         co ma robic polecenie
-#             moba  moba  polecenia   (jak komeda to jaka komenda jak serwer to na jaki serwer)
+#              typ         nazwa  typ     co ma robic polecenie
+#             moba         moba  polecenia (jak komeda to jaka komenda jak serwer to na jaki serwer)
 	trigger:
 		if player has permission "plobby.st":
 			if arg 1 is set:
 				if arg 2 is set:
 					if arg 3 is "serwer" or "komenda":
 						if arg 4 is set:
-							stop
-							# tworzenie moba
+							spawn arg 1 at the player's loction
 						else:
 							send "{@tag} Nie wpisales serwera docelowego / komedy!"
 					else:
