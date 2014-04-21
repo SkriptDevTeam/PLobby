@@ -78,10 +78,10 @@ on drop:
 	if player don't have permission "plobby.drop":
 		cancel event
 		
-on any move:
-	player is in world "{@swiat}":
-		player has permission "plobby.vip":
-			play 1 of effect "heart" with data 1 at player
+on rightclick with gold ingot:
+	player is in "{@swiat}":
+		if player has permission "plobby.vip":
+			show "s;1;i;372;n;&7Efekt: &4Serca;c;serce;" with 1 row named "{@tag} &7Efekty &2VIP" to player
 command /st <entity type> <text> <text> <text>:
 #              typ         nazwa  typ     co ma robic polecenie
 #             moba         moba  polecenia (jak komeda to jaka komenda jak serwer to na jaki serwer)
@@ -101,3 +101,99 @@ command /st <entity type> <text> <text> <text>:
 			else:
 				send "{@tag} Nie wpisales nazwy moba!"
 			
+command /serce:
+	trigger:
+		if player doesn't have permission "efekt.vip":
+			send "{@tag} Nie mozesz tego uzywac"
+			stop
+		set {serce.%player%} to true
+		send "{@tag} Wybrales efekt &6serca"
+		set {nuty.%player%} to false
+		set {ogien.%player%} to false
+		set {redstone.%player%} to false
+		set {fajerwerki.%player%} to false
+		stop
+command /ogien:
+	trigger:
+		if player doesn't have permission "efekt.vip":
+			send "{@tag} Nie mozesz tego uzywac"
+			stop
+		set {ogien.%player%} to true
+		send "{@tag} Wybrales efekt &6ogien"
+		set {nuty.%player%} to false
+		set {serce.%player%} to false
+		set {fajerwerki.%player%} to false
+		set {redstone.%player%} to false
+		stop
+command /nuty:
+	trigger:
+		if player doesn't have permission "efekt.vip":
+			send "{@tag} Nie mozesz tego uzywac"
+			stop
+		set {nuty.%player%} to true
+		send "{@tag} Wybrales efekt &6nuty"
+		set {serce.%player%} to false
+		set {ogien.%player%} to false
+		set {fajerwerki.%player%} to false
+		set {redstone.%player%} to false
+		stop
+command /fajerwerki:
+	trigger:
+		if player doesn't have permission "efekt.vip":
+			send "{@tag} Nie mozesz tego uzywac"
+			stop
+		set {fajerwerki.%player%} to true
+		send "{@tag} Wybrales efekt &6Magia"
+		set {nuty.%player%} to false
+		set {ogien.%player%} to false
+		set {serce.%player%} to false
+		set {redstone.%player%} to false
+		stop
+command /redstone:
+	trigger:
+		if player doesn't have permission "efekt.vip":
+			send "{@tag} Nie mozesz tego uzywac"
+			stop
+		set {redstone.%player%} to true
+		send "{@tag} Wybrales efekt &6redstone"
+		set {nuty.%player%} to false
+		set {ogien.%player%} to false
+		set {serce.%player%} to false
+		set {fajerwerki.%player%} to false
+		stop
+
+every 1 seconds:
+	loop all players:
+		if {serce.%loop-player%} is true:
+			play 20 of effect "heart" with data 1 at loop-player
+		if {ogien.%loop-player%} is true:
+			play 50 of effect "flame" with data 0 at loop-player
+		if {nuty.%loop-player%} is true:
+			play 20 of effect "note" with data 1 at loop-player
+		if {fajerwerki.%loop-player%} is true:
+			play 100 of effect "mobSpell" with data 1 at loop-player
+		if {redstone.%loop-player%} is true:
+			play 200 of effect "reddust" with data 0 at loop-player
+command /usun:
+	trigger:
+		if player doesn't have permission "efekt.vip":
+			send "{@tag} Nie mozesz tego uzywac"
+			stop
+		set {nuty.%player%} to false
+		set {ogien.%player%} to false
+		set {serce.%player%} to false
+		set {fajerwerki.%player%} to false
+		set {redstone.%player%} to false
+		send "{@tag} Wszystkie efekty usuniete pomyslnie"
+
+
+
+
+
+
+on rightclick on chicken with saddle:
+	make player ride targeted entity
+	while player's vehicle is clicked entity:
+		push clicked entity in direction of player at speed 0.1
+		if block in front of player is not air:
+			push clicked entity in direction of player at speed 0.1
