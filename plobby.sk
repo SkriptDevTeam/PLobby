@@ -91,7 +91,7 @@ command /st <entity type> <text> <text> <text>:
 				if arg 2 is set:
 					if arg 3 is "serwer" or "komenda":
 						if arg 4 is set:
-							spawn arg 1 at the player's loction
+							stop
 						else:
 							send "{@tag} Nie wpisales serwera docelowego / komedy!"
 					else:
