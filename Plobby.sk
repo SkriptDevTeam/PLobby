@@ -38,20 +38,17 @@ command /skocznie:
 			send "{@tag} Skocznie wlaczone!"
 command /sb:
 	trigger:
-		display board named "&dSDT" to player
+		display board named "&l%player%T" to player
 		make score "&aAktualnie:" in board of player to 6
 		make score "%number of players%" in board of player to 5
-		make score "&9" in board of player to 4
-		make score "&aNick" in board of player to 3
-		make score "&l%display name of player%" in board of player to 2
 		move display of player to "sidebar"
 on join:
 	execute player command "/sb"
-	remove compass named "&aWybierz serwer" from the player
 	remove clock named "&eGracze: &aON" from player
 	remove clock named "&eGracze: &cOFF" from player
 	remove bone named "&aZwierzeta" from player
-	give compass named "&aWybierz serwer" to the player
+	remove gold ingot named "&eEfekty &e&lVIP" from the player
+	give gold ingot named "&eEfekty &e&lVIP" to the player
 	give clock named "&eGracze: &aON" to the player
 	set {plobby.widocznosc.%player%} to 1 
 	give bone named "&aZwierzeta" to player
