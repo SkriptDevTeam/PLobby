@@ -38,9 +38,12 @@ command /skocznie:
 			send "{@tag} Skocznie wlaczone!"
 command /sb:
 	trigger:
-		display board named "&l%player%T" to player
+		display board named "&l%player%" to player
+		make score "&k" in board of player to 7
 		make score "&aAktualnie:" in board of player to 6
 		make score "%number of players%" in board of player to 5
+		make score "&d" in board of player to 4
+		make score "&cMilej gry!" in board of player to -1
 		move display of player to "sidebar"
 on join:
 	execute player command "/sb"
@@ -73,7 +76,7 @@ on pick up:
 on drop:
 	if player don't have permission "plobby.drop":
 		cancel event
-		
+
 on rightclick with gold ingot:
 	if player has permission "plobby.vip":
 		show "s;1;i;351:1;n;&7Efekt: &4Serca;c;efekt %player% serca;s;2;i;51;n;&7Efekt: &6Ogien;c;efekt %player% ogien;s;3;i;25;n;&7Efekt: &1Nut;c;efekt %player% nuty;s;4;i;351:4;n;&7Efekt: &3M&ea&bg&ei&6i;c;efekt %player% magia;s;5;i;331;n;&7Efekt: &cRedstone;c;efekt %player% redstone;" with 1 row named "{@tag} &7Efekty &6&lVIP" to player
@@ -97,7 +100,7 @@ command /st <entity type> <text> <text> <text>:
 					send "{@tag} Nie wpisales nazwy moba!"
 			else:
 				send "{@tag} Nie wpisales nazwy moba!"
-			
+
 command /efekt <player> <text>:
 	trigger:
 		if sender is console:
@@ -114,10 +117,11 @@ every 1 seconds:
 			play 100 of effect "mobSpell" with data 1 at loop-player
 		if {efekt.%loop-player%} is "redstone":
 			play 200 of effect "reddust" with data 0 at loop-player
-
-on rightclick on chicken with saddle:
-	make player ride targeted entity
-	while player's vehicle is clicked entity:
-		push clicked entity in direction of player at speed 0.1
-		if block in front of player is not air:
-			push clicked entity in direction of player at speed 0.1
+every 10 seconds:
+	if {rekord-graczy} is not set:
+		set {rekord-graczy} to 1
+	else:
+		set {_a} to "%number of players%" parsed as integer
+		set {_r} to "%{rekord-graczy}%" parsed as integer
+		if {_r} is smaller than {_a}:
+			broadcast "&7[&6*&7] Ustanowilismy nowy rekord graczy! Poprzedni wynik: &6%{_r}%&7, nowy rekord: &6%{_a}%&7! Dziekujemy!"
