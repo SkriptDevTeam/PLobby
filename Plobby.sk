@@ -2,7 +2,7 @@
 #▒█▄▄█ █░░ █░░█ █▀▀▄ █▀▀▄ █▄▄█ 
 #▒█░░░ ▀▀▀ ▀▀▀▀ ▀▀▀░ ▀▀▀░ ▄▄▄█ 
 # © PLobby
-# [Parrot, RaiZeN Patison]
+# [Parrot, sebafudi]
 
 #--------------------------#
 #           Opcje          #
@@ -20,6 +20,21 @@ options:
 	
 variables:
 	{rekord-graczy} = 0
+
+#--------------------------#
+#      Update-Checker      #
+#--------------------------#
+
+on script load:
+	set {_v} to "1.1"
+	set {_vp} to text from url "http://pastebin.com/raw.php?i=ETmzd21U"
+	if "%{_v}%" is not "%{_vp}%":
+		broadcast " "
+		broadcast " "
+		broadcast "&4Nowa wersja skryptu &bP&6Lobby &4zostala wydana!"
+		broadcast "&4Pobierz ja na &6http://pastebin.com/raw.php?i=JiUtvUn6"
+		broadcast " "
+		broadcast " "
 	
 #--------------------------#
 #         Wyrzutnie        #
@@ -76,14 +91,17 @@ on any movement:
 		teleport player to spawn
 		
 #--------------------------#
-#    Refresh ScoreBoard    #
+#        ScoreBoard        #
 #--------------------------#
 
+on server ping:
+	set {max} to "%max player count%"
+	
 command /sb:
 	trigger:
 		display board named "&l%player%" to player
 		make score "&aAktualnie:" in board of player to 6
-		make score "&f%number of players%" in board of player to 5
+		make score "&f%number of players%/%{max}%" in board of player to 5
 		make score "&d" in board of player to 4
 		make score "&aRekord graczy:" in board of player to 3
 		make score "%{rekord-graczy}%" in board of player to 2
@@ -178,9 +196,10 @@ command /st <entity type> <text> <text> <text>:
 						if arg 4 is set:
 							set {_t} to argument 1
 							spawn {_t} at the target block
-							set name of spawned entity to "%colored arg 2%"
+							set name of spawned entity to "%arg 2%"
 							apply slowness 100 to the spawned entity for 999 days
 							apply resistance 100 to the spawned entity for 999 days
+							apply jump boost 150 to the spawned entity for 999 days
 							set {st.statua.typ.%arg 2%} to arg 3
 							set {st.statua.polecenie.%arg 2%} to arg 4
 							send "{@tag} Statula utworzona!"
@@ -196,10 +215,11 @@ command /st <entity type> <text> <text> <text>:
 			send "{@tag} {@per}"
 
 on rightclick on a entity:
-	if {st.statua.typ.%name of clicked entity%} is "komenda":
-		execute player command "/%{st.statua.polecenie.%name of clicked entity%}%"
-	else:
-		send "{@tag} Funkcjonalnosc bunnge zostala tymczasowo wylaczona."
+	if clicked entity is not item frame:
+		if {st.statua.typ.%name of clicked entity%} is "komenda":
+			execute player command "/%{st.statua.polecenie.%name of clicked entity%}%"
+		else:
+			send "{@tag} Funkcjonalnosc bunnge zostala tymczasowo wylaczona."
 		
 #--------------------------#
 #         Zwierzeta        #
