@@ -201,7 +201,7 @@ command /st <entity type> <text> <text> <text>:
 						if arg 4 is set:
 							set {_t} to argument 1
 							spawn {_t} at the target block
-							set name of spawned entity to "%arg 2%"
+							set name of spawned entity to "%colured arg 2%"
 							apply slowness 100 to the spawned entity for 999 days
 							apply resistance 100 to the spawned entity for 999 days
 							apply jump boost 150 to the spawned entity for 999 days
